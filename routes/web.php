@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BiographyController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,7 @@ Route::get('/de/index.php/{slug}', [BiographyController::class, 'show'])
 
 // --- Homepage Routes ---
 // This will handle the German homepage at http://gi-de.test/de
-Route::get('/de', function () {
+Route::get('/', function () {
     return 'German Biography Homepage - Coming Soon';
 })->name('de.home');
 
@@ -28,6 +29,9 @@ Route::get('/', function () {
     return redirect()->route('de.home');
 });
 
+
+Route::get('/de/index.php/{slug}', [PostController::class, 'show'])
+    ->name('post.show');
 // You can add other static pages for the '/de' section here if needed
 // For example:
 // Route::get('/de/ueber-uns', [PageController::class, 'about'])->name('de.about');

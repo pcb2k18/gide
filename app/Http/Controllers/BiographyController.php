@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Biography;
@@ -9,21 +8,20 @@ class BiographyController extends Controller
 {
     public function show($slug)
     {
-        // Fetch the record. This will 404 if not found.
         $biography = Biography::where('slug', $slug)->firstOrFail();
-
-        // Start with the structured JSON data. This is our base.
-        $data = $biography->content_data ?? [];
-
-        // Manually set/overwrite top-level keys from the database columns.
-        // This ensures the database is the single source of truth for these items.
-        $data['slug'] = $biography->slug;
-        $data['fullName'] = $biography->full_name;
+        
+        $data = $biography->content_data;
         $data['status'] = $biography->status;
-        $data['created_at'] = $biography->created_at;
         $data['updated_at'] = $biography->updated_at;
+        $data['fullName'] = $biography->full_name;
 
-        // --- Build Related Articles ---
+        // Add missing title and anchorId fields
+        $data = $this->addMissingFields($data);
+
+        // Generate table of contents
+        $data['tableOfContents'] = $this->generateTableOfContents($data);
+
+        // --- Related Articles ---
         $relatedBiographies = Biography::where('status', 'reviewed')
             ->where('slug', '!=', $slug)
             ->inRandomOrder()
@@ -42,7 +40,69 @@ class BiographyController extends Controller
         }
         $data['related_articles'] = $relatedArticles;
 
-        // Pass the final, perfectly structured data array to the view.
         return view('biography.show', ['data' => $data]);
+    }
+
+    private function addMissingFields($data)
+    {
+        // Add titles and anchorIds for sections
+        $sections = [
+            'trendingFocus' => ['title' => 'Aktuelle Entwicklungen', 'anchorId' => 'trending-focus'],
+            'earlyLife' => ['title' => 'Frühe Jahre', 'anchorId' => 'early-life'],
+            'career' => ['title' => 'Karriere', 'anchorId' => 'career'],
+            'personalLife' => ['title' => 'Privatleben', 'anchorId' => 'personal-life'],
+            'death' => ['title' => 'Tod', 'anchorId' => 'death'],
+            'netWorth' => ['title' => 'Vermögen', 'anchorId' => 'net-worth']
+        ];
+
+        foreach ($sections as $sectionKey => $defaults) {
+            if (isset($data[$sectionKey])) {
+                $data[$sectionKey]['title'] = $data[$sectionKey]['title'] ?? $defaults['title'];
+                $data[$sectionKey]['anchorId'] = $data[$sectionKey]['anchorId'] ?? $defaults['anchorId'];
+            }
+        }
+
+        return $data;
+    }
+
+    private function generateTableOfContents($data)
+    {
+        $toc = [];
+        
+        $sections = [
+            'trendingFocus' => 'Aktuelle Entwicklungen',
+            'earlyLife' => 'Frühe Jahre', 
+            'career' => 'Karriere',
+            'personalLife' => 'Privatleben',
+            'death' => 'Tod',
+            'netWorth' => 'Vermögen'
+        ];
+
+        foreach ($sections as $key => $title) {
+            if (!empty($data[$key]['content']) || !empty($data[$key]['timeline']) || !empty($data[$key]['sections'])) {
+                $toc[] = [
+                    'title' => $data[$key]['title'] ?? $title,
+                    'anchorId' => $data[$key]['anchorId'] ?? str_replace('_', '-', strtolower($key))
+                ];
+            }
+        }
+
+        // Always add FAQs if they exist
+        if (!empty($data['faqs']['questions'])) {
+            $toc[] = [
+                'title' => 'Häufig gestellte Fragen',
+                'anchorId' => 'faqs'
+            ];
+        }
+
+        // Always add Sources if they exist
+        if (!empty($data['sources']['sourceList'])) {
+            $toc[] = [
+                'title' => 'Quellen und Referenzen', 
+                'anchorId' => 'quellen'
+            ];
+        }
+
+        return $toc;
     }
 }
