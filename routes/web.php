@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BiographyController;
-use App\Http\Controllers\PostController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +20,7 @@ Route::get('/de/index.php/{slug}', [BiographyController::class, 'show'])
 
 // --- Homepage Routes ---
 // This will handle the German homepage at http://gi-de.test/de
-Route::get('/', function () {
+Route::get('/de', function () {
     return 'German Biography Homepage - Coming Soon';
 })->name('de.home');
 
