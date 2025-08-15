@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CelebBio - Die umfassendsten Biografien deutscher Persönlichkeiten und weitere interessante Artikel.">
-    <meta name="keywords" content="Biografien, deutsche Persönlichkeiten, CelebBio, Gastbeiträge">
-    <title>CelebBio - Deutsche Persönlichkeiten & Biografien</title>
+    <meta name="description" content="GI-DE - Die umfassendsten Biografien deutscher Persönlichkeiten und weitere interessante Artikel.">
+    <meta name="keywords" content="Biografien, deutsche Persönlichkeiten, GI-DE, Gastbeiträge">
+    <title>GI-DE - Deutsche Persönlichkeiten & Biografien</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
