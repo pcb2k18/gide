@@ -1,34 +1,33 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support-Facades\Route;
 use App\Http\Controllers\BiographyController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\HomepageController; // <-- Make sure this is imported
+use App\Http\Controllers\HomepageController;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Web Routes for Production Server (ghanainsider.com/de)
 |--------------------------------------------------------------------------
+|
+| The web server's DocumentRoot is pointed to the /public directory.
+| The `/de` segment is part of the domain/subfolder setup and is not needed in the routes.
+|
 */
 
+// --- Homepage Route ---
+// This will handle the main domain: https://ghanainsider.com/de/
+Route::get('/', [HomepageController::class, 'index'])->name('home');
+
+
 // --- Biography Pages ---
-Route::get('/de/index.php/{slug}', [BiographyController::class, 'show'])
+// This will handle URLs like: https://ghanainsider.com/de/index.php/biography-slug
+Route::get('/index.php/{slug}', [BiographyController::class, 'show'])
     ->where('slug', '[a-zA-Z0-9\-]+')
     ->name('biography.show');
 
+
 // --- Guest Post Pages ---
-Route::get('/de/index.php/post/{slug}', [PostController::class, 'show'])
+// This will handle URLs like: https://ghanainsider.com/de/index.php/post/guest-post-slug
+Route::get('/index.php/post/{slug}', [PostController::class, 'show'])
     ->name('post.show');
-
-
-// ########## START: CORRECTED HOMEPAGE ROUTE ##########
-// This will now handle the homepage: http://gi-de.test/de
-Route::get('/de', [HomepageController::class, 'index'])->name('de.home');
-// ########## END: CORRECTED HOMEPAGE ROUTE ##########
-
-
-// --- Root Domain Redirect ---
-// A fallback for the root domain, just in case
-Route::get('/', function () {
-    return redirect()->route('de.home');
-});
