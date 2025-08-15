@@ -26,6 +26,14 @@ return [
     |
     */
 
+    'providers' => [
+    // Laravel’s default providers...
+    // ...
+
+    // Your app providers...
+    App\Providers\Filament\AdmiiPanelProvider::class,   // ← add this line
+],
+
     'env' => env('APP_ENV', 'production'),
 
     /*
