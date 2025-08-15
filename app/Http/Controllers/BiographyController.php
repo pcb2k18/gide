@@ -37,9 +37,7 @@ class BiographyController extends Controller
                 'title' => $relatedBio->full_name,
                 'excerpt' => Str::limit(strip_tags($relatedData['hero']['intro'] ?? ''), 100),
                 'image' => $relatedData['hero']['mainImageUrl'] ?? null,
-                // ########## THE FIX IS HERE ##########
-                // Use the correct master route name: 'page.show'
-                'url' => route('page.show', ['slug' => $relatedBio->slug]),
+                'url' => route('biography.show', ['slug' => $relatedBio->slug]),
             ];
         }
         
