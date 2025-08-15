@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Support-Facades\Route;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BiographyController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\HomepageController;
 
-/*
+/***
 |--------------------------------------------------------------------------
 | Web Routes for Production Server (ghanainsider.com/de)
 |--------------------------------------------------------------------------
