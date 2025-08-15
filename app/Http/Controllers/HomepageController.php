@@ -10,10 +10,10 @@ class HomepageController extends Controller
     public function index()
     {
         // Fetch the 12 most recently updated, reviewed biographies
-        $biographies = Biography::where('status', 'reviewed')
-                            ->latest('updated_at')
-                            ->limit(12)
-                            ->get();
+      $biographies = Biography::whereIn('status', ['reviewed', 'under_review'])
+                        ->latest('updated_at')
+                        ->limit(12)
+                        ->get();
 
         // Fetch the 6 most recently published guest posts
         $posts = Post::where('status', 'published')

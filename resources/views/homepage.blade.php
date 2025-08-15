@@ -30,9 +30,9 @@
                 <div class="flex-shrink-0">
                     <a href="/" class="flex items-center">
                         <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
-                            <span class="text-white font-bold text-sm">CB</span>
+                            <span class="text-white font-bold text-sm"></span>
                         </div>
-                        <span class="text-xl font-bold text-gray-900">CelebBio</span>
+                        <span class="text-xl font-bold text-gray-900">GI-DE</span>
                     </a>
                 </div>
                 
@@ -70,7 +70,7 @@
             <div class="text-center">
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
                     Willkommen bei
-                    <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">CelebBio</span>
+                    <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">GI-DE</span>
                 </h1>
                 <p class="text-xl sm:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
                     Die umfassendsten Biografien deutscher Persönlichkeiten.
@@ -189,7 +189,7 @@
                         <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
                             <span class="text-white font-bold text-sm">CB</span>
                         </div>
-                        <span class="text-xl font-bold">CelebBio</span>
+                        <span class="text-xl font-bold">GI-DE</span>
                     </div>
                     <p class="text-gray-300 mb-4 max-w-md">
                         Die umfassendste Sammlung deutscher Biografien und interessanter Artikel über bemerkenswerte Persönlichkeiten.
@@ -234,7 +234,7 @@
             </div>
             
             <div class="border-t border-gray-800 mt-8 pt-8 text-center">
-                <p class="text-gray-300">&copy; {{ date('Y') }} CelebBio. Alle Rechte vorbehalten.</p>
+                <p class="text-gray-300">&copy; {{ date('Y') }} GI-DE. Alle Rechte vorbehalten.</p>
             </div>
         </div>
     </footer>
