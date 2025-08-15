@@ -134,162 +134,176 @@
                         @endif
                         
                         {{-- ########## START: DYNAMIC CONTENT SECTIONS ########## --}}
-                        <div class="space-y-12">
+                        @php
+                            $hasContent = !empty($data['trendingFocus']['content']) ||
+                                          !empty($data['earlyLife']['content']) ||
+                                          !empty($data['career']['timeline']) ||
+                                          !empty($data['career']['sections']) ||
+                                          !empty($data['personalLife']['content']) ||
+                                          !empty($data['death']['content']) ||
+                                          !empty($data['netWorth']['content']);
+                        @endphp
 
+                        @if($hasContent)
+                            <div class="space-y-12">
+                               <!-- Quick Facts - Mobile version -->
+                                @if(!empty($data['quickFacts']['facts']))
+                                    <section id="quick-facts-mobile" class="lg:hidden mb-12 not-prose">
+                                        <div class="bg-white rounded-2xl shadow-lg p-6">
+                                            <h2 class="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2">{{ $data['quickFacts']['title'] ?? 'Quick Facts' }}</h2>
+                                            <dl class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                @foreach($data['quickFacts']['facts'] as $fact)
+                                                    <div class="bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg p-3">
+                                                        <dt class="text-xs font-semibold text-blue-700 uppercase tracking-wide">{{ $fact['label'] ?? '' }}</dt>
+                                                        <dd class="text-gray-900 font-medium mt-1 text-sm">{!! $fact['value'] ?? '' !!}</dd>
+                                                    </div>
+                                                @endforeach
+                                            </dl>
+                                        </div>
+                                    </section>
+                                @endif
 
-                           <!-- Quick Facts - Mobile version -->
-@if(!empty($data['quickFacts']['facts']))
-    <section id="quick-facts-mobile" class="lg:hidden mb-12 not-prose">
-        <div class="bg-white rounded-2xl shadow-lg p-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2">{{ $data['quickFacts']['title'] ?? 'Quick Facts' }}</h2>
-            <dl class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                @foreach($data['quickFacts']['facts'] as $fact)
-                    <div class="bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg p-3">
-                        <dt class="text-xs font-semibold text-blue-700 uppercase tracking-wide">{{ $fact['label'] ?? '' }}</dt>
-                        <dd class="text-gray-900 font-medium mt-1 text-sm">{!! $fact['value'] ?? '' !!}</dd>
-                    </div>
-                @endforeach
-            </dl>
-        </div>
-    </section>
-@endif
+                                <div class="prose prose-lg max-w-none space-y-12">
+                                    <!-- Trending Focus Section -->
+                                    @if(!empty($data['trendingFocus']['content']))
+                                        <section id="trending-focus">
+                                            <div class="content-card bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
+                                                <h2>{{ $data['trendingFocus']['title'] ?? 'Aktuelle Entwicklungen' }}</h2>
+                                                <div>{!! $data['trendingFocus']['content'] !!}</div>
+                                            </div>
+                                        </section>
+                                    @endif
 
-<!-- Replace the dynamic content sections in your blade with this: -->
+                                    <!-- Early Life Section -->
+                                    @if(!empty($data['earlyLife']['content']))
+                                        <section id="early-life">
+                                            <div class="content-card">
+                                                <h2>{{ $data['earlyLife']['title'] ?? 'Frühe Jahre' }}</h2>
+                                                <div>{!! $data['earlyLife']['content'] !!}</div>
+                                            </div>
+                                        </section>
+                                    @endif
 
-<div class="prose prose-lg max-w-none space-y-12">
-    <!-- Trending Focus Section -->
-    @if(!empty($data['trendingFocus']['content']))
-        <section id="trending-focus">
-            <div class="content-card bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
-                <h2>{{ $data['trendingFocus']['title'] ?? 'Aktuelle Entwicklungen' }}</h2>
-                <div>{!! $data['trendingFocus']['content'] !!}</div>
-            </div>
-        </section>
-    @endif
+                                    <!-- Career Section -->
+                                    @if(!empty($data['career']['timeline']) || !empty($data['career']['sections']))
+                                        <section id="career">
+                                            <div class="content-card">
+                                                <h2>{{ $data['career']['title'] ?? 'Karriere' }}</h2>
 
-    <!-- Early Life Section -->
-    @if(!empty($data['earlyLife']['content']))
-        <section id="early-life">
-            <div class="content-card">
-                <h2>{{ $data['earlyLife']['title'] ?? 'Frühe Jahre' }}</h2>
-                <div>{!! $data['earlyLife']['content'] !!}</div>
-            </div>
-        </section>
-    @endif
+                                                @if(!empty($data['career']['timeline']))
+                                                    <div class="my-8 rounded-xl not-prose">
+                                                        <h3 class="text-xl font-semibold text-gray-800 mt-0 mb-4 flex items-center">
+                                                            <i data-lucide="clock" class="w-5 h-5 mr-2 text-blue-600"></i>Career Timeline
+                                                        </h3>
+                                                        <div class="space-y-4">
+                                                            @foreach($data['career']['timeline'] as $item)
+                                                                <div class="flex items-start space-x-4 p-3 bg-gray-50 rounded-lg">
+                                                                    <div class="flex-shrink-0 w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center font-bold text-blue-600">{{ $item['year'] ?? '' }}</div>
+                                                                    <div>
+                                                                        <div class="font-semibold text-gray-900">{!! $item['event'] ?? '' !!}</div>
+                                                                        <div class="text-gray-600 text-sm mt-1">{!! $item['description'] ?? '' !!}</div>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                @endif
 
-    <!-- Career Section -->
-    @if(!empty($data['career']['timeline']) || !empty($data['career']['sections']))
-        <section id="career">
-            <div class="content-card">
-                <h2>{{ $data['career']['title'] ?? 'Karriere' }}</h2>
-                
-                @if(!empty($data['career']['timeline']))
-                    <div class="my-8 rounded-xl not-prose">
-                        <h3 class="text-xl font-semibold text-gray-800 mt-0 mb-4 flex items-center">
-                            <i data-lucide="clock" class="w-5 h-5 mr-2 text-blue-600"></i>Career Timeline
-                        </h3>
-                        <div class="space-y-4">
-                            @foreach($data['career']['timeline'] as $item)
-                                <div class="flex items-start space-x-4 p-3 bg-gray-50 rounded-lg">
-                                    <div class="flex-shrink-0 w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center font-bold text-blue-600">{{ $item['year'] ?? '' }}</div>
-                                    <div>
-                                        <div class="font-semibold text-gray-900">{!! $item['event'] ?? '' !!}</div>
-                                        <div class="text-gray-600 text-sm mt-1">{!! $item['description'] ?? '' !!}</div>
-                                    </div>
+                                                @if(!empty($data['career']['sections']))
+                                                    @foreach($data['career']['sections'] as $subSection)
+                                                        @if(!empty($subSection['subtitle']) && !empty($subSection['content']))
+                                                            <h3>{!! $subSection['subtitle'] !!}</h3>
+                                                            <div>{!! $subSection['content'] !!}</div>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                            </div>
+                                        </section>
+                                    @endif
+
+                                    <!-- Personal Life Section -->
+                                    @if(!empty($data['personalLife']['content']))
+                                        <section id="personal-life">
+                                            <div class="content-card">
+                                                <h2>{{ $data['personalLife']['title'] ?? 'Privatleben' }}</h2>
+                                                <div>{!! $data['personalLife']['content'] !!}</div>
+                                            </div>
+                                        </section>
+                                    @endif
+
+                                    <!-- Death Section -->
+                                    @if(!empty($data['death']['content']))
+                                        <section id="death">
+                                            <div class="content-card">
+                                                <h2>{{ $data['death']['title'] ?? 'Tod' }}</h2>
+                                                <div>{!! $data['death']['content'] !!}</div>
+                                            </div>
+                                        </section>
+                                    @endif
+
+                                    <!-- Net Worth Section -->
+                                    @if(!empty($data['netWorth']['content']))
+                                        <section id="net-worth">
+                                            <div class="content-card">
+                                                <h2>{{ $data['netWorth']['title'] ?? 'Vermögen' }}</h2>
+                                                <div>{!! $data['netWorth']['content'] !!}</div>
+                                            </div>
+                                        </section>
+                                    @endif
+
+                                    <!-- FAQ Section -->
+                                    @if(!empty($data['faqs']['questions']))
+                                        <section id="faqs">
+                                            <div class="content-card">
+                                                <h2>{{ $data['faqs']['title'] ?? 'Häufig gestellte Fragen' }}</h2>
+                                                <div class="space-y-4 not-prose" x-data="{ openFaq: null }">
+                                                    @foreach($data['faqs']['questions'] as $index => $faq)
+                                                        <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all">
+                                                            <button @click="openFaq = openFaq === {{ $index }} ? null : {{ $index }}" class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-gray-50 transition-all">
+                                                                <span class="font-semibold text-gray-900 text-lg">{{ $faq['question'] ?? '' }}</span>
+                                                                <i data-lucide="chevron-down" :class="{ 'rotate-180': openFaq === {{ $index }} }" class="w-6 h-6 text-blue-600 transform transition-transform"></i>
+                                                            </button>
+                                                            <div x-show="openFaq === {{ $index }}" x-transition class="px-6 pb-5 text-gray-700 bg-blue-50/50">
+                                                                <div class="text-base leading-relaxed">{!! $faq['answer'] ?? '' !!}</div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </section>
+                                    @endif
+
+                                    <!-- Sources Section -->
+                                    @if(!empty($data['sources']['sourceList']))
+                                        <section id="quellen">
+                                            <div class="content-card">
+                                                <h2>{{ $data['sources']['title'] ?? 'Quellen und Referenzen' }}</h2>
+                                                <ol class="space-y-4 text-gray-700 not-prose">
+                                                    @foreach($data['sources']['sourceList'] as $source)
+                                                        @if(is_array($source) && !empty($source['url']))
+                                                            <li class="flex bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors">
+                                                                <span class="font-bold text-blue-600 mr-4 text-lg">{{ $loop->iteration }}.</span>
+                                                                <div class="flex-1">
+                                                                    <a href="{{ $source['url'] }}" class="text-blue-600 hover:text-blue-800 hover:underline font-semibold break-all" target="_blank" rel="noopener nofollow noreferrer">{{ $source['title'] ?? $source['url'] }}</a>
+                                                                    @if(!empty($source['publisher']))<p class="text-slate-600 mt-1 text-sm">Publisher: {{ $source['publisher'] }}</p>@endif
+                                                                </div>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                </ol>
+                                            </div>
+                                        </section>
+                                    @endif
                                 </div>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
-                
-                @if(!empty($data['career']['sections']))
-                    @foreach($data['career']['sections'] as $subSection)
-                        @if(!empty($subSection['subtitle']) && !empty($subSection['content']))
-                            <h3>{!! $subSection['subtitle'] !!}</h3>
-                            <div>{!! $subSection['content'] !!}</div>
-                        @endif
-                    @endforeach
-                @endif
-            </div>
-        </section>
-    @endif
-
-    <!-- Personal Life Section -->
-    @if(!empty($data['personalLife']['content']))
-        <section id="personal-life">
-            <div class="content-card">
-                <h2>{{ $data['personalLife']['title'] ?? 'Privatleben' }}</h2>
-                <div>{!! $data['personalLife']['content'] !!}</div>
-            </div>
-        </section>
-    @endif
-    
-    <!-- Death Section -->
-    @if(!empty($data['death']['content']))
-        <section id="death">
-            <div class="content-card">
-                <h2>{{ $data['death']['title'] ?? 'Tod' }}</h2>
-                <div>{!! $data['death']['content'] !!}</div>
-            </div>
-        </section>
-    @endif
-
-    <!-- Net Worth Section -->
-    @if(!empty($data['netWorth']['content']))
-        <section id="net-worth">
-            <div class="content-card">
-                <h2>{{ $data['netWorth']['title'] ?? 'Vermögen' }}</h2>
-                <div>{!! $data['netWorth']['content'] !!}</div>
-            </div>
-        </section>
-    @endif
-
-    <!-- FAQ Section -->
-    @if(!empty($data['faqs']['questions']))
-        <section id="faqs">
-            <div class="content-card">
-                <h2>{{ $data['faqs']['title'] ?? 'Häufig gestellte Fragen' }}</h2>
-                <div class="space-y-4 not-prose" x-data="{ openFaq: null }">
-                    @foreach($data['faqs']['questions'] as $index => $faq)
-                        <div class="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all">
-                            <button @click="openFaq = openFaq === {{ $index }} ? null : {{ $index }}" class="w-full px-6 py-5 text-left flex justify-between items-center hover:bg-gray-50 transition-all">
-                                <span class="font-semibold text-gray-900 text-lg">{{ $faq['question'] ?? '' }}</span>
-                                <i data-lucide="chevron-down" :class="{ 'rotate-180': openFaq === {{ $index }} }" class="w-6 h-6 text-blue-600 transform transition-transform"></i>
-                            </button>
-                            <div x-show="openFaq === {{ $index }}" x-transition class="px-6 pb-5 text-gray-700 bg-blue-50/50">
-                                <div class="text-base leading-relaxed">{!! $faq['answer'] ?? '' !!}</div>
                             </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endif
-
-    <!-- Sources Section -->
-    @if(!empty($data['sources']['sourceList']))
-        <section id="quellen">
-            <div class="content-card">
-                <h2>{{ $data['sources']['title'] ?? 'Quellen und Referenzen' }}</h2>
-                <ol class="space-y-4 text-gray-700 not-prose">
-                    @foreach($data['sources']['sourceList'] as $source)
-                        @if(is_array($source) && !empty($source['url']))
-                            <li class="flex bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors">
-                                <span class="font-bold text-blue-600 mr-4 text-lg">{{ $loop->iteration }}.</span>
-                                <div class="flex-1">
-                                    <a href="{{ $source['url'] }}" class="text-blue-600 hover:text-blue-800 hover:underline font-semibold break-all" target="_blank" rel="noopener nofollow noreferrer">{{ $source['title'] ?? $source['url'] }}</a>
-                                    @if(!empty($source['publisher']))<p class="text-slate-600 mt-1 text-sm">Publisher: {{ $source['publisher'] }}</p>@endif
-                                </div>
-                            </li>
+                        @else
+                            <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 p-6 rounded-lg text-center">
+                                <i data-lucide="info" class="w-12 h-12 mx-auto mb-4 text-yellow-600"></i>
+                                <h2 class="text-2xl font-bold text-yellow-900 mb-2">Content Not Available</h2>
+                                <p class="text-yellow-800">The content for this biography is currently being prepared and will be available soon. Please check back later.</p>
+                            </div>
                         @endif
-                    @endforeach
-                </ol>
-            </div>
-        </section>
-    @endif
-</div>
-{{-- ########## END: DYNAMIC CONTENT SECTIONS ########## --}}
-                        </div>
+                        {{-- ########## END: DYNAMIC CONTENT SECTIONS ########## --}}
                     </article>
                 </main>
 
