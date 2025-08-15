@@ -44,8 +44,8 @@
         <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
-                    <div class="flex-shrink-0"><a href="/de" class="text-2xl font-bold text-gray-900 hover:text-blue-600">CelebBio</a></div>
-                    <nav class="hidden md:flex space-x-8"><a href="/de" class="text-gray-600 hover:text-gray-900 text-sm font-medium">Home</a></nav>
+                    <div class="flex-shrink-0"><a href="{{ route('home') }}" class="text-2xl font-bold text-gray-900 hover:text-blue-600">CelebBio</a></div>
+                    <nav class="hidden md:flex space-x-8"><a href="{{ route('home') }}" class="text-gray-600 hover:text-gray-900 text-sm font-medium">Home</a></nav>
                 </div>
             </div>
         </header>
@@ -54,7 +54,7 @@
             <!-- Breadcrumbs -->
             <nav class="mb-8">
                 <ol class="flex items-center space-x-2 text-sm text-gray-600">
-                    <li><a href="/de" class="hover:text-blue-600">Home</a></li>
+                    <li><a href="{{ route('home') }}" class="hover:text-blue-600">Home</a></li>
                     <li><i data-lucide="chevron-right" class="w-4 h-4"></i></li>
                     <li class="text-gray-900 font-medium">{{ $data['fullName'] ?? 'Biografie' }}</li>
                 </ol>

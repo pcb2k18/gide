@@ -25,7 +25,7 @@ class AdmiiPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admii')
-            ->path('admii')
+            ->path('de/admii')
             ->login()
             ->colors([
                 'primary' => Color::Amber,
