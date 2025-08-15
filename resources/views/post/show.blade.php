@@ -47,12 +47,27 @@
                 </div>
             </header>
 
-            <!-- Featured Image -->
-            @if($post->featured_image)
-                <figure class="mb-8">
-                    <img src="{{ Storage::url($post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-auto rounded-lg shadow-md">
-                </figure>
-            @endif
+           {{-- Featured Image --}}
+@php
+    use Illuminate\Support\Str;
+    use Illuminate\Support\Facades\Storage;
+
+    $path = trim($post->featured_image ?? '', '/');
+
+    if (Str::startsWith($path, 'public/')) {
+        $path = Str::after($path, 'public/');
+    }
+
+    $isExternal = Str::startsWith($path, ['http://', 'https://']);
+    $imageUrl  = $isExternal ? $path : Storage::disk('public')->url($path);
+    $exists    = $isExternal || Storage::disk('public')->exists($path);
+@endphp
+
+@if($exists)
+    <figure class="mb-8">
+        <img src="{{ $imageUrl }}" alt="{{ $post->title }}" class="w-full h-auto rounded-lg shadow-md">
+    </figure>
+@endif
 
             <!-- Post Content -->
             <div class="prose prose-lg max-w-none text-gray-700">
