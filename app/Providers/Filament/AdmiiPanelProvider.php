@@ -25,8 +25,7 @@ class AdmiiPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admii')
-            ->path('de/admii')
-            ->login()
+            ->path('admin')
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -44,15 +43,11 @@ class AdmiiPanelProvider extends PanelProvider
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
-                AuthenticateSession::class,
                 ShareErrorsFromSession::class,
                 VerifyCsrfToken::class,
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-            ])
-            ->authMiddleware([
-                Authenticate::class,
             ]);
     }
 }
