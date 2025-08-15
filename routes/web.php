@@ -1,22 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BiographyController;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\SlugRouterController;
 
-Route::group(['prefix' => 'de'], function() {
-    // --- Homepage Route ---
-    // Handles https://ghanainsider.com/de
-    Route::get('/', [HomepageController::class, 'index'])->name('home');
+// Homepage
+Route::get('/', [HomepageController::class, 'index'])->name('home');
 
-    // --- Guest Post Pages ---
-    // Handles https://ghanainsider.com/de/post/guest-post-slug
-    Route::get('post/{slug}', [PostController::class, 'show'])->name('post.show');
+// Legacy redirect (/post/{slug} -> /{slug})
+Route::get('post/{slug}', fn ($slug) =>
+    redirect()->route('biography.show', ['slug' => $slug], 301)
+);
 
-    // --- Biography Pages ---
-    // Handles https://ghanainsider.com/de/biography-slug
-    Route::get('{slug}', [BiographyController::class, 'show'])
-        ->where('slug', '[a-zA-Z0-9\-]+')
-        ->name('biography.show');
-});
+// Unified clean slug route (posts + biographies)
+// Keep the old name so existing Blade calls still work
+Route::get('{slug}', [SlugRouterController::class, 'show'])
+    ->where('slug', '^(?!admin|login|register|api|dashboard|sitemap\.xml|robots\.txt|storage|assets|js|css)[A-Za-z0-9\-]+$')
+    ->name('biography.show');

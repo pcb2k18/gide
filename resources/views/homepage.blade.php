@@ -146,7 +146,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
                 @foreach($posts as $post)
                 <article class="group">
-                    <a href="{{ route('post.show', ['slug' => $post->slug]) }}" class="block bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden">
+                    <a href="{{ route('biography.show', ['slug' => $post->slug]) }}" class="block bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 overflow-hidden">
                         <div class="aspect-w-16 aspect-h-9 overflow-hidden">
                             <img 
                                 src="{{ Storage::url($post->featured_image) }}" 
