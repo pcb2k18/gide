@@ -12,7 +12,7 @@ class HomepageController extends Controller
         // Fetch the 12 most recently updated, reviewed biographies
       $biographies = Biography::whereIn('status', ['reviewed', 'under_review'])
                         ->latest('updated_at')
-                        ->limit(12)
+                        ->limit(6)
                         ->get();
 
         // Fetch the 6 most recently published guest posts
