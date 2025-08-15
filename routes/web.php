@@ -26,5 +26,5 @@ Route::get('/', function () {
     return 'German Biography Homepage - Coming Soon';
 })->name('home');
 
-Route::get('/', [HomepageController::class, 'index'])->name('home');
+Route::get('/', [HomepageController::class, 'index'])->name('home'); 
 // We no longer need the /de route or the redirect from / to /de.
